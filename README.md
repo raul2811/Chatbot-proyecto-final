@@ -146,7 +146,6 @@ pip install random
 pip install tensorflow
 import nltk
 nltk.download('punkt')
-nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('universal_tagset')
 nltk.download('spanish_grammars')
