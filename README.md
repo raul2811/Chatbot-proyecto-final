@@ -105,8 +105,8 @@ def model_builder(x_train, y_train):
     print("modelo creado")
 ```
 <h3 align="left">Desarrolladores</h3>
-<p>Raul Serrano:"Modelo de IA, Interfas web"<br>
-Joseph James:"Modelo de IA, Interfas web"<br>
+<p>Raul Serrano:"Modelo de IA, Interfaz web"<br>
+Joseph James:"Modelo de IA, Interfaz web"<br>
 Itzis Altamiranda:"Modelo de IA"<br>
 Ivan Acevedo:"Modelo de IA"</p>
 <h4 align="left">Lenguajes y Herramientas:</h4>
