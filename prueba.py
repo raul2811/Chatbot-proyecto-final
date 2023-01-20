@@ -19,22 +19,6 @@ def clean_up_sentence(sentence):
     sentence_words=[stemmer.stem(word.lower()) for word in sentence_words] #lematizamos
     return sentence_words
 
-
-#def bow(sentence, words, show_details=True):
-    nlp = spacy.load("es_core_news_sm")
-    doc = nlp(sentence)
-    sentence_words = [token.lemma_.lower() for token in doc]
-    
-    bag = np.zeros(len(words))
-    
-    for i in sentence_words:
-        if i in words:
-            index = words.index(i)
-            bag[index] = 1
-            if show_details:
-                print("Encontrado en la bolsa: ", i)
-    return bag
-
 def bow (sentence,words,show_details=True): #lazo entre lo que ingreso el usuario tokenizado y la referencia 
     sentence_words=clean_up_sentence(sentence)
     
