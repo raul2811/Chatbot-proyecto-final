@@ -7,7 +7,7 @@ Este chatbot fue desarrollado con el fin de ser presentado como proyecto final, 
 </h2>
 Funcionando en: https://bot.fasmsserver.com/
 
-![Interfas](https://github.com/raul2811/chatbot/raw/day%3D01/11/23/ahora.png)
+![Interfas](https://github.com/raul2811/Chatbot-proyecto-final/blob/main/ahora.png)
 
 ### <img src="https://images.vexels.com/media/users/3/157445/isolated/preview/3400ef84aa3a273311454f13eb76fdaa-icono-de-engranajes-de-marketing.png" alt="funcionamiento" width="40" height="40"/> Funcionamiento
 C.E.D.A.A.C es un  chatbot en español. Utiliza varias bibliotecas como json, pickle, numpy, nltk y tensorflow. El script comienza cargando las intenciones de un archivo json llamado "intents.json" y las convierte en un diccionario utilizando la función json.loads().
@@ -108,7 +108,7 @@ def model_builder(x_train, y_train):
 <p>Raul Serrano:"Modelo de IA, Interfas web"<br>
 Joseph James:"Modelo de IA, Interfas web"<br>
 Itzis Altamiranda:"Modelo de IA"<br>
-Ivan Acevedo"Modelo de IA"</p>
+Ivan Acevedo:"Modelo de IA"</p>
 <h4 align="left">Lenguajes y Herramientas:</h4>
 <p align="left"> <a href="https://www.w3schools.com/css/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="40" height="40"/> </a> <a href="https://flask.palletsprojects.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/pocoo_flask/pocoo_flask-icon.svg" alt="flask" width="40" height="40"/> </a> <a href="https://www.w3.org/html/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="html5" width="40" height="40"/> </a> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="40" height="40"/> </a> <a href="https://www.python.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="40" height="40"/> 
 </a> <a href="https://www.cloudflare.com/" target="_blank" rel="noreferrer"> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Cloudflare_Logo.png/1024px-Cloudflare_Logo.png" alt="cloudflare" width="40" height="40"/>
