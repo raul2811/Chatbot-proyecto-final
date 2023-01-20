@@ -144,7 +144,7 @@ pip install json
 pip install pickle
 pip install random
 pip install tensorflow
-#import nltk
+import nltk
 nltk.download('punkt')
 nltk.download('punkt')
 nltk.download('wordnet')
