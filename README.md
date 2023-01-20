@@ -7,7 +7,8 @@ Este chatbot fue desarrollado con el fin de ser presentado como proyecto final, 
 </h2>
 Funcionando en: https://bot.fasmsserver.com/
 
-![Interfas](https://github.com/raul2811/Chatbot-proyecto-final/blob/main/ahora.png)
+[<img src="https://github.com/raul2811/Chatbot-proyecto-final/blob/main/ahora.png">](https://youtu.be/A_R06Wmm9V0"")
+
 
 ### <img src="https://images.vexels.com/media/users/3/157445/isolated/preview/3400ef84aa3a273311454f13eb76fdaa-icono-de-engranajes-de-marketing.png" alt="funcionamiento" width="40" height="40"/> Funcionamiento
 C.E.D.A.A.C es un  chatbot en español. Utiliza varias bibliotecas como json, pickle, numpy, nltk y tensorflow. El script comienza cargando las intenciones de un archivo json llamado "intents.json" y las convierte en un diccionario utilizando la función json.loads().
@@ -81,7 +82,7 @@ def training(words,classes,documents):
     
     return x_train,y_train
 ```
-La función model_builder() se utiliza para construir el modelo del chatbot utilizando una red neuronal con tres capas: entrada de datos, aprendizaje y salida de decisiones. Utiliza un optimizador SGD para entrenar el modelo y ajustar los parámetros.</p>
+La función model_builder() se utiliza para construir el modelo del chatbot utilizando una red neuronal con tres capas: entrada de datos, aprendizaje y salida de decisiones. Utiliza un optimizador SGD para entrenar el modelo y ajustar los parámetros.
 ```python
 def model_builder(x_train, y_train):
     model = Sequential()
@@ -103,6 +104,55 @@ def model_builder(x_train, y_train):
     hist=model.fit(np.array(x_train),np.array(y_train),epochs=300,batch_size=16,verbose=2)
     model.save("chatbot_model.h5",hist)
     print("modelo creado")
+```
+Flask es un marco web de Python que se utiliza para desarrollar aplicaciones web. Es un marco minimalista y flexible que permite a los desarrolladores crear aplicaciones web fácilmente, ya sea una aplicación pequeña o una aplicación de gran escala. Flask proporciona un conjunto básico de herramientas para manejar solicitudes HTTP y respuestas, así como una estructura para organizar el código de la aplicación. También se pueden utilizar extensiones y bibliotecas adicionales para agregar funcionalidades adicionales a la aplicación, como soporte para bases de datos o autenticación.</p>
+```python
+#conectamos el modelo de IA con la interfas web
+app= Flask(__name__, instance_relative_config=True)
+app.debug=False
+@app.route('/chatbot',methods=['POST','GET'])
+def chatbot_response():
+    message=request.json["message"]
+    print("Este es el mensaje"+message)
+    ints=predict_class(message,model)
+    response=get_response(ints,intents)
+    print(response)
+    return response
+
+
+@app.route('/resp',methods=['POST','GET'])
+def chatbot_mensaje():
+    message=request.json["message"]
+    print("Este es el mensaje"+message)
+    return message
+
+
+@app.route('/')
+def index():
+  return render_template('index.html')
+```
+El modelo se conecta con la interfaz web al ejecutar el archivo prueba.py
+
+### <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="40" height="40"/>  Requisitos
+
+Python 3.9.13 y las siguientes librerias:
+```python
+pip install Flask
+pip install nltk
+pip install numpy
+pip install json
+pip install pickle
+pip install random
+pip install tensorflow
+#import nltk
+nltk.download('punkt')
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('universal_tagset')
+nltk.download('spanish_grammars')
+nltk.download('tagsets')
+nltk.download('stopwords')
+nltk.download('omw-1.4')
 ```
 <h3 align="left">Desarrolladores</h3>
 <p>Raul Serrano:"Modelo de IA, Interfaz web"<br>
