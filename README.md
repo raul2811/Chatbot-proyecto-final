@@ -131,7 +131,7 @@ def chatbot_mensaje():
 def index():
   return render_template('index.html')
 ```
-El modelo se conecta con la interfaz web al ejecutar el archivo prueba.py
+El modelo se conecta con la interfaz web al ejecutar el archivo main.py
 
 ### <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="40" height="40"/>  Requisitos
 
