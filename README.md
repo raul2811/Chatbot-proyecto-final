@@ -5,7 +5,6 @@ Proyecto final de samsung innovation campus.
 Este chatbot fue desarrollado con el fin de ser presentado como proyecto final, desarrollado por el grupo #6.
 <h2 align="left"><img src="https://www.pngmart.com/files/16/Chat-Icon-PNG-File.png" alt="C.E.D.A.A.C" width="35" height="35"/> C.E.D.A.A.C 
 </h2>
-Funcionando en: https://bot.fasmsserver.com/
 
 [<img src="https://github.com/raul2811/Chatbot-proyecto-final/blob/main/ahora.png">](https://youtu.be/A_R06Wmm9V0"")
 
