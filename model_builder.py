@@ -6,138 +6,93 @@ from nltk import word_tokenize, pos_tag
 from tensorflow.keras import Sequential
 from tensorflow.keras.layers import Conv2D, Flatten, Dense,Dropout
 from tensorflow.keras.optimizers.legacy import SGD
-from nltk.stem import SnowballStemmer
-stemmer = SnowballStemmer('spanish')
+from nltk.stem import SnowballStemmer#Importamos un lematizador de nltk
+stemmer=SnowballStemmer('spanish')#importamos el modulo del lematizador en español
 
-ignore_words=["?","¿","!","¡",",",".","/"]
-data_file = open("intents.json").read() #aqui cargo el archivo en formato json
-intents = json.loads(data_file) # aqui convierto el archivo json a diccionario
-def tokenizer():
-    words=[]
+
+ignore_words=["?","¿","!","¡",",",".","/"]#Palabras que se deben ignorar en el procesamiento
+data_file=open("intents.json").read()#lee el json
+intents=json.loads(data_file)
+
+def tokenizer():#tokenizador
+    words=[]#declaramos words, classes and documents como listas "vacias"
     classes=[]
     documents=[]
 
-    for intent in intents["intents"]: #accedo a la lista de diccionarios
-        for pattern in intent["patterns"]: # accedo a la lista de palabraas
+    for intent in intents["intents"]:#accedo a la lista de diccionarios o bibliotecas
+        for pattern in intent["patterns"]:#accedo a la lista de palabras
 
 
-            #tokenizar cada palabra
+            w=nltk.word_tokenize(pattern)# tokeniza cada palabra en la biblioteca
+            words.extend(w)#lo separa palabra por palabra
 
-            w=nltk.word_tokenize(pattern) #separamos las oraciones palabra por palabra y guardamos cada palabra como token
-            words.extend(w)
-
-            #agrego un array de documentos
             documents.append((w,intent["tag"]))
-            #print(documents)
-            #añadimos clases  a nuestra lista de clases
             if intent["tag"] not in classes:
-                classes.append(intent["tag"])
-            
+                classes.append(intent["tag"])#si no esta se añaden clases a la lista de clases
     return words,classes,documents
 
 
-
-
-#___________________ lematizador            
-
-def lematizer(words,classes,documents):
-
+def lematizer(words, classes,documents):
     words = [stemmer.stem(w.lower()) for w in words if w not in ignore_words]
-    #print(documents)
+    #se procesan las palabras, se hacen minusculas y se eliminan los caracteres extras en "ignore_words"
     words2=words
-    
-    print("words despues de lematizar:", len(words))
 
+    print("palabras despues de lematizar", len(words))
     pickle.dump(words,open("words.pkl","wb"))
     pickle.dump(classes,open("classes.pkl","wb"))
-
     return words2
 
-#______________________preprocesamiento (training data)
 
-
-
-
-def training(words,classes,documents):
-
+def training(words, classes, documents):#preprocesamiento
     training=[]
-    output_empty=[0]*len(classes)# creamos una matriz del numero de patterns con valor inicial 0
-                                # creamos una matriz que tenga tantas columnas como classes
+    output_empty=[0]*len(classes)
 
-    for doc in documents: #en doc esta la raw_data -> datos sin procesar
 
-        #bag of words
-        bag=[]
-        #lista de tokens
-        pattern_words=doc[0]# doc[0] es la lista de palabras
-        # lematizacion del token
+    for doc in documents:
+        bag=[]#bolsa de valores
+        pattern_words=doc[0]#lista de tokens
 
-        pattern_words= [stemmer.stem(word.lower()) for word in pattern_words  if word not in ignore_words ]
-
-        #print("words de modelo: ",len(words))
-
-        # si la palabra coincide introduzco 1, en caso contrario 0
+        pattern_words=[stemmer.stem(word.lower())for word in pattern_words if word not in ignore_words]
 
         for palabra in words:
-            bag.append(1) if palabra in pattern_words else bag.append(0) 
-            #si la palabra de referencia esta dentro de pattern_words ponga 1
-            #print(bag)
+            bag.append(1) if palabra in pattern_words else bag.append(0)# si la palabra coincide sera igual a 1 sino 0
 
-        output_row =list(output_empty)
-        output_row[classes.index(doc[1])] = 1 #doc en la posicion 1 es el pattern
-                    #busca en que posicion esta el tag y pone un 1 en esa posicion del output_row
-                    #ejemplo si es saludo pone [1,0,0,0]
-
+        output_row=list(output_empty)
+        output_row[classes.index(doc[1])]=1
         training.append([bag,output_row])
+    training=np.array(training)
 
-    training=np.array(training) # cambiamos la lista de listas a un formato numpy.array
+    x_train=list(training[:,0])
+    y_train=list(training[:,1])    
 
-    
-    x_train= list(training[:,0]) #asi porque estamos en formato numpy.array ||| training[inicio:fin,index]
-    y_train= list(training[:,1])  
-    
-    return x_train,y_train
-
-#___________________________________ crea el modelo
+    return x_train, y_train
 
 
 
 
 def model_builder(x_train, y_train):
-    model = Sequential()
+    model=Sequential()
     print(len(x_train[0]))
-    #añadimos capas a la red
-    model.add(Dense(256, input_shape=(len(x_train[0]),), activation='relu')) #añadimos 1 capa: entrada de datos
+    model.add(Dense(256,input_shape=(len(x_train[0]),),activation='relu'))
     model.add(Dropout(0.5))
-    model.add(Dense(128,activation='relu')) #capa oculta -> aprendizaje
+    model.add(Dense(128,activation='relu'))
     model.add(Dropout(0.5))
-    model.add(Dense(len(y_train[0]),activation='softmax')) # capa de salida toma de desiciones
+    model.add(Dense(len(y_train[0]),activation='softmax'))
 
-    sgd=SGD(learning_rate=0.01,decay=1e-6,momentum=0.9,nesterov=True) 
 
+    sgd=SGD(learning_rate=0.01,decay=1e-6,momentum=0.9,nesterov=True)
     model.compile(loss="categorical_crossentropy",optimizer=sgd,metrics=["accuracy"])
-
-    #le mando los datos de train para que entrene y aprenda
-    #fit ajusta los datos para crear un modelo (Sequential de 3 capas) que pueda predecir los datos
-
-    hist=model.fit(np.array(x_train),np.array(y_train),epochs=300,batch_size=16,verbose=2)
+    hist=model.fit(np.array(x_train),np.array(y_train),epochs=300,batch_size=60,verbose=1)
     model.save("chatbot_model.h5",hist)
-    print("modelo creado")
-
-
-
+    print("modelo listo👍")
 
 def start_model():
-    
     words,classes,documents=tokenizer()
-    print("words:", len(words))
-    
     words2=lematizer(words,classes,documents)
     x_train,y_train=training(words2,classes,documents)
     model_builder(x_train,y_train)
+    
 
-# _________________________________MAIN________________________
 
-# Driver program
-if __name__ == '__main__':       
+if __name__ =='__main__':
     start_model()

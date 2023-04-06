@@ -2,91 +2,111 @@ from flask import Flask, render_template,request
 import nltk, json,pickle
 import numpy as np
 import random
+from intents_reference import start_intents
+from model_builder import start_model
 from nltk.stem import SnowballStemmer
 from tensorflow.keras.models import load_model
+import time
 stemmer = SnowballStemmer('spanish')
 
 
-model=load_model("chatbot_model.h5")
-intents= json.loads(open("intents.json").read())
-words=pickle.load(open("words.pkl","rb"))
-classes=pickle.load(open("classes.pkl","rb"))
-
+model=load_model("chatbot_model.h5")#Cargamos el modelo
+intents= json.loads(open("intents.json").read())#Cargamos el json | "base de datos"
+words=pickle.load(open("words.pkl","rb"))#cargamos la biblioteca de las palabras
+classes=pickle.load(open("classes.pkl","rb"))#cargamos la biblioteca de las clases
+global date_time
+global time_time
+time_time=(time.strftime("%I:%M:%S"))#hora
+date_time=(time.strftime("%d/%m/%y"))#fecha
 
 def clean_up_sentence(sentence):
-    # tokenizar la oracion
-    sentence_words=nltk.word_tokenize(sentence) # tokenizamos
-    sentence_words=[stemmer.stem(word.lower()) for word in sentence_words] #lematizamos
+    
+    sentence_words=nltk.word_tokenize(sentence) #tokenizamos las palabras
+    sentence_words=[stemmer.stem(word.lower()) for word in sentence_words] #lematizamos las palabras
     return sentence_words
 
 
-def bow (sentence,words,show_details=True): #lazo entre lo que ingreso el usuario tokenizado y la referencia 
+def bow (sentence,words,show_details=True): 
     sentence_words=clean_up_sentence(sentence)
     
     bag=[0]*len(words)
-    #print("BAG TEST: ",len(bag)," : ",len(words)) # de aqui viene el problema
+    
     for i in sentence_words:
         for j,w in enumerate(words):
-            if w==i: # asigna 1 si la palabra actual está en la posición del vocabulario 
+            if w==i: #Asigna 1 si la palabra esta en la posicion de las palabras
                 bag[j]=1
                 if show_details:
                     print("encontrado en la bolsa: ",w)
     return (np.array(bag))
 
-# ahora si utilizo el modelo para predecir que tipo de palabra es
 
-def predict_class(sentence,model):
-    # filtrar las predicciones  por debajo del umbral
-    #print("words:", len(words))
-    #print("todo ok")
-    #print(p)
-    p = bow(sentence,words,show_details=False) # retorno del bag # p porque es el preprocesamiento
+
+def predict_class(sentence,model):#Para predecir que tipo o clase de palabra es
     
-    res = model.predict(np.array([p]))[0] # res es la eficacia, o probabilidad de que la palabra sea de algun tipo
-    #model.predict me retorna el % eficacia  , ejm 60% saludo
-    # [0] es la palabra , [1] es el tag
+    p = bow(sentence,words,show_details=False)
+    
+    res = model.predict(np.array([p]))[0] #retornamos lo eficiente del modelo
     
     
-    ERROR_THRESHOLD=0.25 #UMBRAL
+    ERROR_THRESHOLD=0.25 #Umbral de error
     
     
-    # a results le llega  [1,0,0,0]
+   
     results= [[i,r] for i,r in enumerate(res) if r>ERROR_THRESHOLD] 
-    # si la probabilidad es > 25% determinela como resultado correcto
+    #si el umbral de error es mayor a r entonces lo toma
     
-    #r[0]= tag
-    #r[1]= probabilidad
     
-    #ordenar por peso de la probabilidad
-    results.sort(key=lambda x: x[1], reverse=True)  
-    #ordena de mayor a menor la probabilidad de que el resultado sea acertado
+    
+    
+    
+    results.sort(key=lambda x: x[1], reverse=True)  #Ordena el resultado de menor a mayor el resultado
+    #                                                de las clases.
+    global return_list #return list la hacemos global
     return_list = []    
     for r in results:   
         return_list.append({"intent": classes[r[0]], "probability": str(r[1])})   
-    print("print de return list: ", return_list)  ##  me dice de que tipo es y cual es la probabilidad de que sea correcto
+    print("print de return list: ", return_list) #Imprime los datos del mensaje diciendome la clase y la probabilidad
     return return_list 
 
 
-def get_response(ints,intents_json): 
+def get_response(ints,intents_json): #revisa la clase del "tag" y obtiene una respuesta aleatoria
     tag= ints[0]["intent"] 
-    list_of_intents=intents_json["intents"] 
-    for i  in list_of_intents: 
-        if (i["tag"]==tag): 
-            result= random.choice(i["responses"]) 
+    list_of_intents=intents_json["intents"] #sacamos el json las referencias para generar las respuestas
+    for i  in list_of_intents: #i toma el valor de las referencias del json
+        if (i["tag"]==tag): #Si i en la posicion de las clases es igual a la clase que ingreso el usuario
+            result= random.choice(i["responses"]) #toma una respuesta aleatoria dentro de la propia clase de "i"
             break
     return result
 
 
-app= Flask(__name__, instance_relative_config=True)
-app.debug=False
-@app.route('/chatbot',methods=['POST','GET'])
+app= Flask(__name__, instance_relative_config=True)# declaramos la app de flask
+app.debug=False# para que se guarden los cambios al segundo | en este caso lo tenemos en False
+@app.route('/chatbot',methods=['POST','GET'])#la ruta que se encarga de recibir el mensaje de la pagina web
 def chatbot_response():
-    message=request.json["message"]
-    print("Este es el mensaje"+message)
-    ints=predict_class(message,model)
-    response=get_response(ints,intents)
-    print(response)
-    return response
+    try:
+        message=request.json["message"]#obtiene el mensaje del formulario en la pagina web
+        print("Este es el mensaje"+message)#impresion del mensaje del usuario
+        ints=predict_class(message,model)#toma el mensaje y el modelo y predice en que clase está
+        response=get_response(ints,intents)#va a la funcion get_response para obtener la respuesta
+        print(response)
+        txt = open ('log.txt','a',encoding='utf-8')#abrimos el txt
+        txt.write("\nFecha:{}, Hora:{}".format(date_time,time_time))
+        txt.write("\nmensaje del usuario: {}\n".format(message))
+        txt.write("presicion: {}\n".format(return_list))
+        txt.write("Respuesta del bot: {}\n".format(response))
+        txt.close()#cerramos el txt
+        return response# retorna la respuesta a la pagina web para que sea impreso
+    except Exception as e:
+        print("Error: ", e)
+        txt = open ('log.txt','a',encoding='utf-8')#abrimos el txt
+        txt.write("\nFecha:{}, Hora:{}".format(date_time,time_time))
+        txt.write("\nERROR\n".format(message))
+        txt.write("mensaje del usuario: {}\n".format(message))
+        txt.write("presicion: {}\n".format(return_list))
+        txt.write("Lo siento, no pude entender tu mensaje.\n")
+        txt.close()#cerramos el txt
+        return "Lo siento, no pude entender tu mensaje."
+
 
 
 @app.route('/resp',methods=['POST','GET'])
@@ -96,15 +116,21 @@ def chatbot_mensaje():
     return message
 
 
-@app.route('/')
-def index():
-  return render_template('index.html')
+@app.route('/bot')#ruta de la pagina web donde se encuentra el chatbot
+def index():# esta funcion toma la pagina para hacer la conexion http
+    return render_template('index.html')#retornamos la pagina web para que este en la ruta /bot
+
+@app.route('/')#ruta principal de la pagina web donde se muestra la bienvenida.
+def Welcome():
+    return render_template('Welcome.html')#Retornamos la pagina web para que este en la ruta principal
 
 
-import intents_reference
-import model_builder
+
+
+    
+    
 if __name__=='__main__':
+    #start_intents()
+    #start_model()
     
     app.run()
-    
-    
