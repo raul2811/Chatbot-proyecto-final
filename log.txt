@@ -1,2 +1,57 @@
 
 
+
+Fecha:25/05/23, Hora:08:13:56
+mensaje del usuario: HOLA
+presicion: [{'intent': 'saludos', 'probability': '0.961631'}]
+Respuesta del bot: hola, soy un prototipo de un bot que esta dispuesto a responder tu solicitud, en que puedo ayudarte?
+
+Fecha:25/05/23, Hora:08:13:56
+mensaje del usuario: PUTO
+presicion: [{'intent': 'saludos', 'probability': '0.25210792'}]
+Respuesta del bot: hola, soy un prototipo de un bot que esta dispuesto a responder tu solicitud, en que puedo ayudarte?
+
+Fecha:25/05/23, Hora:08:13:56
+mensaje del usuario: MALDITO
+presicion: [{'intent': 'saludos', 'probability': '0.25210792'}]
+Respuesta del bot: un saludo, soy un prototipo de un bot que esta dispuesto a responder tu solicitud, en que puedo ayudarte?
+
+Fecha:25/05/23, Hora:08:13:56
+mensaje del usuario: TE ODIO
+presicion: [{'intent': 'agradecimiento', 'probability': '0.9832712'}]
+Respuesta del bot: fue un placer, si tiene alguna otra pregunta o consulta puede escribir en cualquier momento.
+
+Fecha:25/05/23, Hora:08:13:56
+mensaje del usuario: ADIOS
+presicion: [{'intent': 'saludos', 'probability': '0.25210792'}]
+Respuesta del bot: un saludo, soy un prototipo de un bot que esta dispuesto a responder tu solicitud, en que puedo ayudarte?
+
+Fecha:25/05/23, Hora:08:13:56
+mensaje del usuario: QUE HACES
+presicion: [{'intent': 'funcionamiento', 'probability': '0.99997497'}]
+Respuesta del bot: Mi funcion es ayudar a los clientes con pagos, creditos, envios, pedidos, reembolsos, devoluciones, quejas, reclamos, informacion detallada sobre productos, formas de contactarnos y otras consultas de atencion al cliente. Ademas, tambien estoy capacitado para brindar soluciones y ayudar a resolver problemas relacionados con la cuenta del cliente, como problemas de inicio de sesion, actualizacion de informacion de contacto y actualizacion de la informacion de pago. Tambien puedo proporcionar informacion sobre politicas de envio, tiempos de entrega, y detalles sobre garantias y devoluciones. Mi objetivo es asegurar que cada cliente tenga una experiencia satisfactoria y que sus necesidades sean atendidas de manera eficiente y amable.
+
+Fecha:25/05/23, Hora:08:13:56
+mensaje del usuario: QUIEN TE CREO
+presicion: [{'intent': 'developers', 'probability': '0.9999962'}]
+Respuesta del bot: este prototipo de chatbot fue creado por los estudiantes del grupo #6 de samsung innovation campus y fundesteam como proyecto.
+
+Fecha:25/05/23, Hora:08:13:56
+mensaje del usuario: SUCURSALES
+presicion: [{'intent': 'tiendacercana', 'probability': '0.99896383'}]
+Respuesta del bot: si, su peticion sera respondida en unos segundo, se abrira otra pestaña.
+
+Fecha:25/05/23, Hora:08:13:56
+mensaje del usuario: SUCURSALES
+presicion: [{'intent': 'tiendacercana', 'probability': '0.99896383'}]
+Respuesta del bot: si, su peticion sera respondida en unos segundo, se abrira otra pestaña.
+
+Fecha:25/05/23, Hora:08:13:56
+mensaje del usuario: RAUL
+presicion: [{'intent': 'saludos', 'probability': '0.25210792'}]
+Respuesta del bot: un saludo, soy un prototipo de un bot que esta dispuesto a responder tu solicitud, en que puedo ayudarte?
+
+Fecha:25/05/23, Hora:08:13:56
+mensaje del usuario: QUIEN ES RAUL
+presicion: [{'intent': 'developers', 'probability': '0.9999658'}]
+Respuesta del bot: este prototipo de chatbot fue creado por los estudiantes del grupo #6 de samsung innovation campus y fundesteam como proyecto.

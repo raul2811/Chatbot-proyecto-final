@@ -1,0 +1,16 @@
+import pip
+pip.main(["install","Flask"])
+pip.main(["install","nltk"])
+pip.main(["install","numpy"])
+pip.main(["install","json"])
+pip.main(["install","pickle"])
+pip.main(["install","random"])
+pip.main(["install","tensorflow"])
+import nltk
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('universal_tagset')
+nltk.download('spanish_grammars')
+nltk.download('tagsets')
+nltk.download('stopwords')
+nltk.download('omw-1.4')

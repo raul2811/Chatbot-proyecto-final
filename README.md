@@ -136,14 +136,13 @@ El modelo se conecta con la interfaz web al ejecutar el archivo main.py
 
 Python 3.9.13 y las siguientes librerias:
 ```python
-import pip
-pip.main(["install","Flask"])
-pip.main(["install","nltk"])
-pip.main(["install","numpy"])
-pip.main(["install","json"])
-pip.main(["install","pickle"])
-pip.main(["install","random"])
-pip.main(["install","tensorflow"])
+pip install Flask
+pip install nltk
+pip install numpy
+pip install json
+pip install pickle
+pip install random
+pip install tensorflow
 import nltk
 nltk.download('punkt')
 nltk.download('wordnet')
@@ -153,7 +152,6 @@ nltk.download('tagsets')
 nltk.download('stopwords')
 nltk.download('omw-1.4')
 ```
-
 <h3 align="left">Desarrolladores</h3>
 <p><a href="https://www.linkedin.com/in/raul-serrano-a1b79120a?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BkME50HMITUasDmWX9sEExA%3D%3D">Raul Serrano</a>: "Modelo de IA, Interfaz web"<br>
 <a href="https://github.com/DiscipleOFGod">Joseph James</a>: "Modelo de IA, Interfaz web"<br>
